@@ -4,16 +4,21 @@
 class FunctionalUnit
 {
 private:
+    // std::string type;
+    // int latency;
+    // bool busy;
+    // Instruction instruction;
+public:
     std::string type;
     int latency;
     bool busy;
     Instruction instruction;
-public:
-    FunctionalUnit(string type, int latency);
+    FunctionalUnit();
+    FunctionalUnit(std::string type, int latency);
     ~FunctionalUnit();
 };
 
-FunctionalUnit::FunctionalUnit(string type, int latency)
+FunctionalUnit::FunctionalUnit(std::string type, int latency)
 {
     this->type = type;// Tipo da unidade funcional (ex: add, mul)
     this->latency = latency;// Ciclos de latência da unidade funcional OBS: Altera valores depois

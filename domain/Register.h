@@ -4,18 +4,24 @@
 class Register
 {
 private:
+    // std::string name;
+    // int value;
+    // bool busyRead;
+    // bool busyWrite;
+    // Instruction Instruction;
+    
+public:
     std::string name;
     int value;
     bool busyRead;
     bool busyWrite;
-    Instruction Instruction;
-    
-public:
-    Register(string name, int value);
+    Instruction instruction;
+    Register();
+    Register(std::string name, int value);
     ~Register();
 };
 
-Register::Register(string name, int value)
+Register::Register(std::string name, int value)
 {
     this->name = name;
     this->value = value;
