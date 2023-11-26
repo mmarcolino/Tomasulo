@@ -1,7 +1,8 @@
 #include <iostream>
+#include <fstream>
+#include <sstream>
 #include <vector>
 #include <map>
-
 // Definindo a estrutura de uma instrução
 class Instruction {
 public:
@@ -373,29 +374,42 @@ public:
     }
 };
 
+// Função para liberar a memória alocada para as instruções
+void freeInstructions(std::vector<Instruction*>& instructions) {
+    for (const auto& instruction : instructions) {
+        delete instruction;
+    }
+}
+
 // Exemplo de uso
 int main() {
-    std::vector<Instruction*> instructions = {
-        new Instruction("lw", "F6", "34", "R2"),
-        new Instruction("lw", "F2", "45", "R3"),
-        new Instruction("mul", "F0", "F2", "F4"),
-        new Instruction("sub", "F8", "F6", "F2"),
-        new Instruction("div", "F10", "F0", "F6"),
-        new Instruction("add", "F6", "F8", "F2")
-    };
+    // Leitura das instruções a partir de um arquivo de texto
+    std::vector<Instruction*> instructions;
+    std::ifstream inputFile("instrucoes.txt");  // Nome do arquivo de texto
+
+    if (!inputFile.is_open()) {
+        std::cerr << "Erro ao abrir o arquivo." << std::endl;
+        return 1;
+    }
+
+    std::string line;
+    while (std::getline(inputFile, line)) {
+        std::istringstream iss(line);
+        std::string op, dest, src1, src2;
+        iss >> op >> dest >> src1 >> src2;
+        instructions.push_back(new Instruction(op, dest, src1, src2));
+    }
+
+    inputFile.close();
 
     // Preset de latências por instrução, quantidade de registradores e quantidade de unidades lógicas
     std::map<std::string, int> values = {
-        // Ciclos gastos para cada tipo de operação
         {"addUnitLatency", 3},
         {"mulUnitLatency", 10},
         {"swUnitLatency", 2},
-
-        // Número de unidades por operação
         {"addUnitQnt", 3},
         {"mulUnitQnt", 2},
         {"swUnitQnt", 2},
-
         {"registerQnt", 16}
     };
 
@@ -403,6 +417,9 @@ int main() {
 
     Tomasulo tomasulo(instructions, values);
     tomasulo.run();
+
+    // Libera a memória alocada para as instruções
+    freeInstructions(instructions);
 
     return 0;
 }
