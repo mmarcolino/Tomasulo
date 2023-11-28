@@ -86,3 +86,24 @@ sw F2 100 R1
 sub R2 R1 F6
 ```
 Cada linha deve conter a operação seguida pelos registradores de destino e operandos, separados por espaços. O código irá ler esse arquivo para inicializar a simulação do algoritmo de Tomasulo com as instruções fornecidas.
+
+Por fim, para modificar os parâmetros, como latência e quantidade de unidades funcionais, no código do algoritmo de Tomasulo, você pode ajustar os valores no bloco values dentro da função main(). Aqui está um exemplo de como você pode modificar esses parâmetros:
+```cpp
+// Preset de latências por instrução, quantidade de registradores e quantidade de unidades lógicas
+std::map<std::string, int> values = {
+    {"addUnitLatency", 3},    // Latência da unidade funcional de soma (add)
+    {"mulUnitLatency", 10},   // Latência da unidade funcional de multiplicação (mul)
+    {"swUnitLatency", 2},     // Latência da unidade funcional de store word (sw)
+    {"addUnitQnt", 3},        // Quantidade de unidades funcionais de soma (add)
+    {"mulUnitQnt", 2},        // Quantidade de unidades funcionais de multiplicação (mul)
+    {"swUnitQnt", 2},         // Quantidade de unidades funcionais de store word (sw)
+    {"registerQnt", 16}       // Quantidade total de registradores disponíveis
+};
+```
+Por exemplo, se você deseja aumentar a latência da unidade funcional de multiplicação para 12 ciclos, basta modificar a linha correspondente:
+```cpp
+{"mulUnitLatency", 12},   // Latência da unidade funcional de multiplicação (mul)
+```
+Além disso, você pode ajustar a quantidade de unidades funcionais (Qnt) para cada tipo de instrução (add, mul, sw) conforme necessário.
+
+Lembre-se de que esses valores influenciam diretamente no desempenho e na execução do algoritmo de Tomasulo. Experimente diferentes configurações para observar como elas afetam o resultado da simulação.
